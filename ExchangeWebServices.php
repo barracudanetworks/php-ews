@@ -1634,7 +1634,23 @@ class ExchangeWebServices
         {
             $file_path = $this->cache_name_callback[0](basename(str_replace('/', '', $assoc->ItemId->Id)));
             $cache_handle = fopen($file_path, 'w');
-            fwrite($cache_handle, base64_decode($assoc->MimeContent));
+            if ($cache_handle === false)
+            {
+                throw new EWS_Infrastructure_Exception(
+                    "EWS failed to open file '$file_path'"
+                );
+            }
+
+            $binary = base64_decode($assoc->MimeContent);
+            $written = fwrite($cache_handle, $binary);
+            if (strlen($binary) !== $written)
+            {
+                throw new EWS_Infrastructure_Exception(
+                    "EWS failed to write to '$file_path', expecting to write " .
+                    strlen($binary) . " bytes but only wrote $written bytes"
+                );
+            }
+
             fclose($cache_handle);
             $assoc->MimeContent = $file_path;
         }
