@@ -137,6 +137,7 @@ class OAuthSoapClient extends SoapClient
         curl_setopt($this->ch, CURLOPT_POSTFIELDS, $request);
         curl_setopt($this->ch, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
         curl_setopt($this->ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC | CURLAUTH_NTLM);
+        curl_setopt($this->ch, CURLOPT_ENCODING, 'gzip,deflate');
 
         $xml = '';
 
