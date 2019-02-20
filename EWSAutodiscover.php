@@ -462,7 +462,8 @@ class EWSAutodiscover
             CURLOPT_HEADER              => false,
             CURLOPT_HEADERFUNCTION      => array($this, 'readHeaders'),
             CURLOPT_HTTP200ALIASES      => array(301, 302),
-            CURLOPT_IPRESOLVE           => CURL_IPRESOLVE_V4
+            CURLOPT_IPRESOLVE           => CURL_IPRESOLVE_V4,
+            CURLOPT_ENCODING            => 'gzip,deflate'
         );
         curl_setopt_array($ch, $opts);
         $this->last_response    = curl_exec($ch);
