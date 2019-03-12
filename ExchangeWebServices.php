@@ -119,6 +119,13 @@ class ExchangeWebServices
      */
     protected $impersonation;
 
+	/**
+	* Mailbox Anchor
+	*
+	* @var string
+	*/
+	protected $anchor_mailbox;
+
     /**
      * Method of authorization for access to exchange, either NTLM or OAuth
      *
@@ -304,12 +311,19 @@ class ExchangeWebServices
     {
         $this->impersonation = $impersonation;
 
-        if ($this->soap)
-        {
-            $this->soap->setAnchorMailBox($impersonation->ConnectingSID->PrimarySmtpAddress);
-        }
-
         return true;
+    }
+
+    public function setAnchorMailBox($email)
+    {
+	    $this->anchor_mailbox = $email;
+
+	    if ($this->soap)
+	    {
+		    $this->soap->setAnchorMailBox($email);
+	    }
+
+	    return true;
     }
 
     /**
@@ -1437,6 +1451,7 @@ class ExchangeWebServices
                         'version' => $this->version,
                         'location' => 'https://'.$this->server.'/EWS/Exchange.asmx',
                         'impersonation' => $this->impersonation,
+	                    'anchor_mailbox' => $this->anchor_mailbox,
                     ),
                     $this->file_output,
                     $this->write_to_file

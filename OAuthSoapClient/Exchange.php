@@ -73,7 +73,11 @@ class OAuthSoapClient_Exchange extends OAuthSoapClient
                 $options['impersonation']
             );
 
-            $this->anchor_mailbox = $options['impersonation']->ConnectingSID->PrimarySmtpAddress;
+	        if (array_key_exists('anchor_mailbox', $options)) {
+		        $this->anchor_mailbox = $options['anchor_mailbox'];
+	        } else {
+		        $this->anchor_mailbox = $options['impersonation']->ConnectingSID->PrimarySmtpAddress;
+	        }
 		}
 
         // set the file output
