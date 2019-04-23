@@ -152,7 +152,7 @@ class OAuthSoapClient extends SoapClient
 
             if (!file_exists($next_five_minute_window))
             {
-                mkdir($next_five_minute_window);
+                mkdir($next_five_minute_window, 0777, true);
             }
 
             $file_path = $next_five_minute_window . '/' . md5($action . $this->access_token . time() . getmypid() . rand(0, getmypid())) . '.' . getmypid();
